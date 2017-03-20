@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #Ongeldige invoer afvangen, gebruiker is gefrusreerd of wil stoppen. 
-trap handler_int EXIT
+trap handler_int SIGINT
 #Volledige directory naam van het script, maakt niet uit waar hij wordt uitgevoerd
 readonly script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)
 readonly max_faults=10
