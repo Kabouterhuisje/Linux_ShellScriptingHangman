@@ -46,6 +46,170 @@ get_random_word()
 	echo "${word}"
 }
 
+draw_hangman()
+{
+	if [ "$1" -eq 1 ]; then
+		echo "          __________"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 2 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 3 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 4 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 5 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 6 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 7 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "      ---|         |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 8 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "      ---|---      |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "                   |"
+		echo "                   |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 9 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "      ---|---      |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "        /          |"
+		echo "       /           |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+	if [ "$1" -eq 10 ]; then
+		echo "          __________"
+		echo "         |         |"
+		echo "         |         |"
+		echo "       _/_\_       |"
+		echo "        |_|        |"
+		echo "         |         |"
+		echo "      ---|---      |"
+		echo "         |         |"
+		echo "         |         |"
+		echo "        / \        |"
+		echo "       /   \       |"
+		echo "                   |"
+		echo "      _____________|_____"
+		echo "                           " 
+	fi
+}
+
 #status printen
 print_status()
 {
@@ -55,10 +219,12 @@ print_status()
 
 	clear_screen
 
-	if [ $((max_faults - faults)) -eq 0 ]; then
+	if [ $((max_faults - faults)) -eq 1 ]; then
 		printf "${LASTGUESS_text}"
+		draw_hangman $faults
 	else
 		printf "${GUESSES_text}" "$((max_faults - faults))"
+		draw_hangman $faults
 	fi
 
 	printf "${LETTERS_text}" "${letters}"
@@ -148,7 +314,7 @@ main()
 	untried="abcdefghijklmnopqrstuvwxyz"
 
 	#game gaat door tot de gebruiker heeft gewonnen of verloren
-	while [ ${faults} -lt $((max_faults + 1)) ]; do
+	while [ ${faults} -lt $((max_faults)) ]; do
 		guessable=$(make_guessable_word "${word}" "${untried}")
 		print_status "${faults}" "${untried}" "${guessable}"
 		input=$(read_input)
@@ -183,7 +349,8 @@ main()
 
 	#gebruiker verliest
 	clear_screen
-	printf "${LOSE_text}" "${word}"
+	printf "${EXIT_text}" "${word}"
 }
 
 main "$@"
+
