@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 #Ongeldige invoer afvangen, gebruiker is gefrusreerd of wil stoppen. 
+#Wij gebruiken SIGINT in plaats van EXIT, omdat we in de gameloop exit 0 gebruiken.
+#Deze zal met EXIT dus ook worden afgevangen, en een gebruiken kan dan nooit winnen. 
 trap handler_int SIGINT
 #Volledige directory naam van het script, maakt niet uit waar hij wordt uitgevoerd
 readonly script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)
@@ -46,6 +48,7 @@ get_random_word()
 	echo "${word}"
 }
 
+#tekenen van de galg
 draw_hangman()
 {
 	if [ "$1" -eq 1 ]; then
@@ -233,6 +236,7 @@ print_status()
 	printf "${INPUT_text}"
 }
 
+#Het te raden woord, weergegeven door puntjes
 make_guessable_word()
 {
 	local word=$1
@@ -245,7 +249,7 @@ make_guessable_word()
 	echo "${word}"
 }
 
-#user input lezen, backslash telt niet als escape character
+#user input lezen
 read_input()
 {
 	read -r -n1 input
